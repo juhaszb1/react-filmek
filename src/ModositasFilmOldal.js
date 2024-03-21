@@ -6,7 +6,7 @@ export default function ModositasFilmOldal() {
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
-    const [, setFilm] = useState({});
+    const [, setFilm] = useState([]);
     const [modositottNev, setModositottNev] = useState("");
     const [modositottKiadasEve, setModositottKiadasEve] = useState("");
     const [modositottErtekeles, setModositottErtekeles] = useState("");
@@ -16,7 +16,7 @@ export default function ModositasFilmOldal() {
         (async () => {
             try {
                 const res = await axios.get(`https://localhost:7017/Film/${id}`);
-                const film = await res.data;
+                const film = await res.json();
                 setFilm(film);
                 setModositottNev(film.nev);
                 setModositottKiadasEve(film.kiadasEve);
@@ -49,6 +49,7 @@ export default function ModositasFilmOldal() {
             headers: { 'Content-Type': 'application/json' },
             url: `https://localhost:7017/Film/${id}`,
             data: JSON.stringify({
+                id: id,
                 nev: modositottNev,
                 kiadasEve: modositottKiadasEve,
                 ertekeles: modositottErtekeles,
@@ -80,7 +81,7 @@ export default function ModositasFilmOldal() {
                     <input type="number" className="form-control" defaultValue={modositottErtekeles} onChange={handleModositottErtekelesChange} />
                 </div>
                 <div className="form-group mb-3">
-                    <label className="form-label">Kep neve:</label>
+                    <label className="form-label">Kép neve:</label>
                     <input type="text" className="form-control" defaultValue={modositottKepneve} onChange={handleModositottKepneveChange} />
                 </div>
                 <button type="submit" className="btn btn-primary">Módosítás</button>
